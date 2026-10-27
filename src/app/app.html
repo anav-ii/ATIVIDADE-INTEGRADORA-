@@ -1,11 +1,12 @@
-<header style="background-color: #2b4a3f; color: white; padding: 20px; display: flex; justify-content: space-between;">
+<header style="background-color: #2b4a3f; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
   <h2 style="margin: 0;">minhaloja</h2>
   <nav>
-    <a href="#" style="color: white; margin-left: 15px; text-decoration: none;">LOJA</a>
+    <a routerLink="/catalogo" style="color: white; margin-left: 15px; text-decoration: none;">LOJA</a>
     <a href="#" style="color: white; margin-left: 15px; text-decoration: none;">CADASTRO</a>
-    <a href="#" style="color: white; margin-left: 15px; text-decoration: none;">CARRINHO</a>
+    <a routerLink="/carrinho" style="color: white; margin-left: 15px; text-decoration: none;">CARRINHO</a>
   </nav>
 </header>
 
-<!-- O ROUTER-OUTLET É AQUI -->
-<router-outlet></router-outlet>
+<main>
+  <router-outlet></router-outlet>
+</main>

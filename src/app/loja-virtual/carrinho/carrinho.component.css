@@ -1,0 +1,23 @@
+h1 { margin-bottom: 20px; color: #2b4a3f; }
+
+.carrinho-vazio { text-align: center; padding: 50px; background: white; border-radius: 8px; }
+.carrinho-vazio p { margin-bottom: 20px; font-size: 1.2rem; color: #666; }
+
+.carrinho-layout { display: flex; gap: 20px; }
+.carrinho-itens { flex: 1; }
+.item-card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.item-info h4 { color: #2b4a3f; margin-bottom: 5px; }
+.item-info p { color: #666; font-size: 0.9rem; }
+.item-acoes { text-align: right; }
+.item-acoes .preco { font-weight: bold; color: #c62828; font-size: 1.1rem; margin-bottom: 5px; }
+
+.carrinho-resumo { width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; }
+.carrinho-resumo h3 { color: #2b4a3f; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
+.linha-resumo { display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 20px; }
+.btn-block { display: block; width: 100%; text-align: center; text-decoration: none; }
+
+/* Botões */
+.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+.btn-primary { background-color: #2b4a3f; color: #fff; }
+.btn-danger { background-color: #c62828; color: #fff; }
+.btn-outline { background-color: transparent; border: 1px solid #2b4a3f; color: #2b4a3f; }

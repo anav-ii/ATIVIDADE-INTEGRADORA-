@@ -1,0 +1,45 @@
+<div class="page-container">
+    <h1>Meu Carrinho</h1>
+  
+    <div *ngIf="itens.length === 0" class="carrinho-vazio">
+      <p>Seu carrinho está vazio.</p>
+      <a routerLink="/catalogo" class="btn btn-primary">Voltar para a Loja</a>
+    </div>
+  
+    <div *ngIf="itens.length > 0" class="carrinho-layout">
+      
+      <!-- Lista de Itens -->
+      <div class="carrinho-itens">
+        <div class="item-card" *ngFor="let item of itens">
+          <div class="item-info">
+            <h4>{{ getNome(item.item) }}</h4>
+            <p>Quantidade: {{ item.quantidade }}</p>
+          </div>
+          <div class="item-acoes">
+            <p class="preco">R$ {{ getPreco(item.item) | number:'1.2-2' }}</p>
+            <button class="btn btn-danger" (click)="removerItem(item.item.Iditem || item.item.iditem)">
+              Remover
+            </button>
+          </div>
+        </div>
+        
+        <button class="btn btn-outline" style="margin-top: 20px;" (click)="limparCarrinho()">
+          Limpar Carrinho
+        </button>
+      </div>
+  
+      <!-- Resumo do Pedido -->
+      <aside class="carrinho-resumo">
+        <h3>Resumo do Pedido</h3>
+        <div class="linha-resumo">
+          <span>Total:</span>
+          <strong>R$ {{ total | number:'1.2-2' }}</strong>
+        </div>
+        
+        <!-- Botão que vai para o cadastro (para identificar o cliente) -->
+        <a routerLink="/cadastro" class="btn btn-primary btn-block">Finalizar Pedido</a>
+        <a routerLink="/catalogo" class="btn btn-outline btn-block" style="margin-top: 10px;">Continuar Comprando</a>
+      </aside>
+  
+    </div>
+  </div>

@@ -5,6 +5,7 @@ import { ItemService } from '../../core/services/item.service';
 import { CategoriaService } from '../../core/services/ategoria.service';
 import { Item } from '../../core/models/item.model';
 import { Categoria } from '../../core/models/categoria.model';
+import { CarrinhoService } from '../../core/services/carrinho.service';
 
 @Component({
   selector: 'app-catalogo',
@@ -27,6 +28,7 @@ export class CatalogoComponent implements OnInit {
   constructor(
     private itemService: ItemService,
     private categoriaService: CategoriaService,
+    private carrinhoService: CarrinhoService, 
     private cdr: ChangeDetectorRef 
   ) {}
 
@@ -115,5 +117,10 @@ export class CatalogoComponent implements OnInit {
 
   getIdCategoria(cat: any): number {
     return cat.Idcategoria || cat.idcategoria;
+  }
+
+  adicionarAoCarrinho(item: any): void {
+    this.carrinhoService.adicionar(item);
+    alert(`"${this.getNome(item)}" adicionado ao carrinho!`);
   }
 }

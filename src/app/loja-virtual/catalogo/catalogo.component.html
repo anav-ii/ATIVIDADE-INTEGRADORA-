@@ -52,7 +52,9 @@
             <p class="descricao">{{ getDescricao(item) }}</p>
             <p class="preco">R$ {{ getPreco(item) | number:'1.2-2' }}</p>
             <p class="tipo-badge">{{ getTipo(item) }}</p>
-            <button class="btn btn-primary btn-block">Adicionar ao Carrinho</button>
+            <button class="btn btn-primary btn-block" (click)="adicionarAoCarrinho(item)">
+              Adicionar ao Carrinho
+            </button>
           </div>
         </div>
 
