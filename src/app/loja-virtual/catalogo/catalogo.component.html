@@ -1,0 +1,69 @@
+<div class="page-container">
+  <div class="catalogo-layout">
+    
+    <!-- Menu Lateral de Categorias -->
+    <aside class="filtros-sidebar">
+      <h3>Categorias</h3>
+      <ul>
+        <!-- Opção Todas -->
+        <li 
+          [class.active]="categoriaSelecionada === null" 
+          (click)="selecionarCategoria(null)">
+          Todas
+        </li>
+        
+        <!-- Opções do Banco -->
+        <li 
+          *ngFor="let cat of categorias" 
+          [class.active]="categoriaSelecionada === getIdCategoria(cat)"
+          (click)="selecionarCategoria(getIdCategoria(cat))">
+          {{ getNomeCategoria(cat) }}
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Área Principal de Produtos -->
+    <section class="produtos-area">
+      
+      <!-- Barra de Busca -->
+      <div class="busca-header">
+        <h2>Produtos e Serviços</h2>
+        <div class="busca-input">
+          <input 
+            type="text" 
+            placeholder="Buscar por nome..." 
+            [(ngModel)]="termoBusca" 
+            (input)="filtrarPorNome()">
+        </div>
+      </div>
+
+      <!-- Mensagem de Carregando -->
+      <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+        <p>Carregando produtos do banco de dados...</p>
+      </div>
+
+      <!-- Grade de Produtos -->
+      <div class="grid-produtos" *ngIf="!carregando">
+        
+        <div class="card-produto" *ngFor="let item of itensFiltrados">
+          <div class="imagem-placeholder">Imagem</div>
+          <div class="card-info">
+            <h4>{{ getNome(item) }}</h4>
+            <p class="descricao">{{ getDescricao(item) }}</p>
+            <p class="preco">R$ {{ getPreco(item) | number:'1.2-2' }}</p>
+            <p class="tipo-badge">{{ getTipo(item) }}</p>
+            <button class="btn btn-primary btn-block">Adicionar ao Carrinho</button>
+          </div>
+        </div>
+
+        <!-- Mensagem se não achar nada -->
+        <div *ngIf="itensFiltrados.length === 0" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+          <p>Nenhum produto encontrado.</p>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+</div>
