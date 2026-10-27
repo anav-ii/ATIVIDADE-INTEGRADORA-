@@ -17,5 +17,11 @@ export const routes: Routes = [
   { 
     path: 'cadastro', // <-- NOVA ROTA
     loadComponent: () => import('./loja-virtual/cadastro-cliente/cadastro-cliente.component').then(m => m.CadastroClienteComponent) 
-  }
+  },
+
+  // Rotas do Admin
+  { path: 'admin', 
+  redirectTo: 'admin/dashboard', 
+  pathMatch: 'full' },
+  { path: 'admin/dashboard', loadComponent: () => import('./admin/dashboard/dashboard.component').then(m => m.DashboardComponent) },
 ];
