@@ -13,5 +13,9 @@ export const routes: Routes = [
     path: 'carrinho', 
     loadComponent: () => import('./loja-virtual/carrinho/carrinho.component')
     .then(m => m.CarrinhoComponent) 
+  },
+  { 
+    path: 'cadastro', // <-- NOVA ROTA
+    loadComponent: () => import('./loja-virtual/cadastro-cliente/cadastro-cliente.component').then(m => m.CadastroClienteComponent) 
   }
 ];
