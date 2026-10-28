@@ -1,0 +1,25 @@
+.admin-container { max-width: 1000px; margin: 20px auto; padding: 20px; }
+.admin-header { background-color: #2b4a3f; color: white; padding: 15px 20px; border-radius: 8px 8px 0 0; margin-bottom: 20px; }
+.tabela-admin { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
+.tabela-admin th, .tabela-admin td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
+.tabela-admin th { background-color: #f8f9fa; color: #2b4a3f; font-weight: bold; }
+.tabela-admin tr:hover { background-color: #f1f1f1; }
+
+/* Estilos para cada Status */
+.status-aberto { color: #f57c00; font-weight: bold; }
+.status-processamento { color: #1976d2; font-weight: bold; }
+.status-concluido { color: #2e7d32; font-weight: bold; }
+.status-cancelado { color: #c62828; font-weight: bold; }
+
+/* Estilo do Menu Suspenso */
+.select-status {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  color: #2b4a3f;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  width: 100%;
+  max-width: 180px;
+}

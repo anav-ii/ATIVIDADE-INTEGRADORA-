@@ -15,4 +15,8 @@ export class ItemService {
   listar(): Observable<Item[]> {
     return this.http.get<Item[]>(this.apiUrl);
   }
+
+  atualizar(id: number, item: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, item);
+  }
 }

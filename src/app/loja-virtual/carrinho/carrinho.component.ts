@@ -1,10 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router'; // Para o botão "Voltar"
+import { RouterLink, Router } from '@angular/router';
 import { CarrinhoService, ItemCarrinho } from '../../core/services/carrinho.service';
-import { Router } from '@angular/router';
 import { AtendimentoService } from '../../core/services/atendimento.service';
-
 
 @Component({
   selector: 'app-carrinho',
@@ -19,8 +17,8 @@ export class CarrinhoComponent implements OnInit {
 
   constructor(
     private carrinhoService: CarrinhoService,
-    private atendimentoService: AtendimentoService, // <-- Adicione
-    private router: Router,                         // <-- Adicione
+    private atendimentoService: AtendimentoService,
+    private router: Router,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -40,54 +38,53 @@ export class CarrinhoComponent implements OnInit {
     this.carrinhoService.limpar();
   }
 
-  // Função auxiliar para pegar o nome do item
   getNome(item: any): string {
     return item.Item1 || item.item1 || 'Sem nome';
   }
   
-  // Função auxiliar para pegar o preço
   getPreco(item: any): number {
     return item.Preco !== undefined ? item.Preco : (item.preco || 0);
   }
 
   finalizarPedido(): void {
-    // Pega os itens atuais do carrinho
-    let itensCarrinho: any[] = [];
-    this.carrinhoService.getItens().subscribe((dados: any) => {
-      itensCarrinho = dados;
-    });
-
-    if (itensCarrinho.length === 0) {
+    if (this.itens.length === 0) {
       alert('Seu carrinho está vazio!');
       return;
     }
 
-    // Monta o objeto exatamente como o seu C# espera (AtendimentoPostDTO)
+    // Pega o ID do cliente que foi salvo no localStorage durante o cadastro.
+    // Se não existir, usa o ID 3 como fallback (joao da silva).
+    const idClienteSalvo = localStorage.getItem('idCliente');
+    const idPessoaParaEnviar = idClienteSalvo ? Number(idClienteSalvo) : 3;
+
+    // Monta o JSON exatamente como o seu backend C# espera (AtendimentoPostDTO)
     const pedido = {
       IdAtendimento: 0,
-      IdPessoa: 3, // Usando ID 1 de teste (ideal seria pegar o cliente logado)
-      NomePessoa: 'Cliente Teste',
+      IdPessoa: idPessoaParaEnviar,
+      NomePessoa: 'Cliente ' + idPessoaParaEnviar,
       DataAtendimento: new Date().toLocaleDateString('en-CA'), // Gera "YYYY-MM-DD"
       StatusAtendimento: 'Aberto',
-      Itens: itensCarrinho.map((item: any) => {
+      Itens: this.itens.map((itemCarrinho: any) => {
         return {
           IdAtendimento: 0,
-          IdItem: item.item.Iditem || item.item.iditem,
-          Item: item.item.Item1 || item.item.item1,
-          IdFuncionario: 3, // Usando ID 1 de teste
-          NomeFuncionario: 'Funcionario Teste',
-          Cargo: 'Admin',
-          Quantidade: item.quantidade,
-          ValorUnitario: item.item.Preco || item.item.preco || 0
+          IdItem: itemCarrinho.item.Iditem || itemCarrinho.item.iditem,
+          Item: itemCarrinho.item.Item1 || itemCarrinho.item.item1,
+          IdFuncionario: 3, // Usando o ID do joao da silva (funcionário válido)
+          NomeFuncionario: 'joao da silva',
+          Cargo: 'mecanico',
+          Quantidade: itemCarrinho.quantidade,
+          ValorUnitario: itemCarrinho.item.Preco || itemCarrinho.item.preco || 0
         };
       })
     };
 
-    // Envia para o backend
+    console.log('Enviando pedido:', pedido);
+
+    // Envia para a API
     this.atendimentoService.cadastrar(pedido).subscribe({
       next: (res: any) => {
         alert('Pedido finalizado com sucesso!');
-        this.carrinhoService.limpar(); // Esvazia o carrinho
+        this.carrinhoService.limpar(); // Limpa o carrinho
         this.router.navigate(['/catalogo']); // Volta para a loja
       },
       error: (err: any) => {
