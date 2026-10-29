@@ -1,32 +1,36 @@
 <div class="admin-container">
-    <div class="admin-header">
-      <h2>Consulta de Estoque</h2>
-    </div>
-  
-    <div *ngIf="carregando" style="text-align: center; padding: 20px;">
-      Carregando estoque...
-    </div>
-  
-    <table class="tabela-admin" *ngIf="!carregando">
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Categoria</th>
-          <th>Preço de Venda</th>
-          <th>Qtd. em Estoque</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of itens">
-          <td>{{ getNome(item) }}</td>
-          <td>{{ getCategoria(item) }}</td>
-          <td>R$ {{ getPreco(item) | number:'1.2-2' }}</td>
-          <td>
-            <span [class.estoque-baixo]="getQuantidade(item) < 5">
-              {{ getQuantidade(item) }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="admin-header">
+    <h2>Consulta de Estoque</h2>
   </div>
+
+  <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+    Carregando estoque...
+  </div>
+
+  <table class="tabela-admin" *ngIf="!carregando">
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Tipo</th>
+        <th>Preço de Venda</th>
+        <th>Qtd. em Estoque</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of itens">
+        <td>{{ getNome(item) }}</td>
+        <td>{{ getTipo(item) }}</td>
+        <td>R$ {{ getPreco(item) | number:'1.2-2' }}</td>
+        <td>
+          <!-- Serviço: mostra "-" -->
+          <span *ngIf="getTipo(item) === 'Serviço'">-</span>
+          
+          <!-- Produto: mostra a quantidade -->
+          <span *ngIf="getTipo(item) === 'Produto'" [class.estoque-baixo]="getQuantidade(item) < 5">
+            {{ getQuantidade(item) }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

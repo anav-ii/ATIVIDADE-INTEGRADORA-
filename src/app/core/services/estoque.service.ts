@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class EstoqueService {
-  private apiUrl = 'https://localhost:7142/api/Estoque'; // Rota do seu backend
+  private apiUrl = 'https://localhost:7142/api/Estoque';
 
   constructor(private http: HttpClient) {}
 

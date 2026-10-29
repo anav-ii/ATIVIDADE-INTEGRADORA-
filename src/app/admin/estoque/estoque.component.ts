@@ -37,9 +37,14 @@ export class EstoqueComponent implements OnInit {
     });
   }
 
-  // Funções auxiliares (adaptadas para o JSON da view)
+  // Funções auxiliares (apenas leitura)
   getNome(item: any): string { return item.nomeItem || item.NomeItem || 'Sem nome'; }
-  getPreco(item: any): number { return item.precoVendaUnidade || item.PrecoVendaUnidade || 0; }
+  getPreco(item: any): number { return item.precoVenda || item.PrecoVenda || 0; }
   getQuantidade(item: any): number { return item.quantidadeEstoque || item.QuantidadeEstoque || 0; }
   getCategoria(item: any): string { return item.categoria || item.Categoria || 'Sem categoria'; }
+  
+  getTipo(item: any): string {
+    const tipo = (item.tipoItem || item.TipoItem || '').toUpperCase();
+    return tipo === 'P' ? 'Produto' : 'Serviço';
+  }
 }
