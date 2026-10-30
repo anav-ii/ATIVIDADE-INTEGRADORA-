@@ -1,6 +1,7 @@
 <div class="admin-container">
-  <div class="admin-header">
+  <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Gerenciar Produtos e Serviços</h2>
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
   </div>
 
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">

@@ -10,3 +10,16 @@
 .btn-sm { font-size: 0.85rem; }
 .btn-outline { background: transparent; border: 1px solid #2b4a3f; color: #2b4a3f; }
 .btn-outline:hover { background: #2b4a3f; color: white; }
+.btn-voltar {
+    background-color: #fff;
+    color: #2b4a3f;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+  }
+  .btn-voltar:hover {
+    background-color: #e0e0e0;
+  }

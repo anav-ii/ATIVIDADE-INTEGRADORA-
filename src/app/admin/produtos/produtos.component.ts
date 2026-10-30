@@ -1,11 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ItemService } from '../../core/services/item.service';
 
 @Component({
   selector: 'app-produtos-admin',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './produtos.component.html',
   styleUrls: ['./produtos.component.css']
 })

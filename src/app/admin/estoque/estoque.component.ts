@@ -1,11 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EstoqueService } from '../../core/services/estoque.service';
+import { RouterLink } from '@angular/router'; // Adicione
+
 
 @Component({
   selector: 'app-estoque',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './estoque.component.html',
   styleUrls: ['./estoque.component.css']
 })

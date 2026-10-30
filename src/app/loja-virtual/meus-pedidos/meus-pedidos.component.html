@@ -1,0 +1,36 @@
+<div class="page-container">
+    <h2>Meus Pedidos</h2>
+  
+    <div *ngIf="!idCliente" class="aviso">
+      <p>Você precisa se cadastrar para ver seus pedidos.</p>
+      <a routerLink="/cadastro" class="btn btn-primary">Cadastrar-se</a>
+    </div>
+  
+    <div *ngIf="idCliente && carregando" style="text-align: center; padding: 20px;">
+      Carregando pedidos...
+    </div>
+  
+    <div *ngIf="idCliente && !carregando && pedidos.length === 0" class="aviso">
+      <p>Você ainda não fez nenhum pedido.</p>
+      <a routerLink="/catalogo" class="btn btn-primary">Ir para a Loja</a>
+    </div>
+  
+    <div *ngIf="idCliente && !carregando && pedidos.length > 0" class="lista-pedidos">
+      <div class="card-pedido" *ngFor="let pedido of pedidos">
+        <div class="pedido-header">
+          <h3>Pedido #{{ getId(pedido) }}</h3>
+          <span [ngClass]="{
+            'status-aberto': getStatus(pedido) === 'Aberto',
+            'status-concluido': getStatus(pedido) === 'Concluido',
+            'status-cancelado': getStatus(pedido) === 'Cancelado'
+          }">
+            {{ getStatus(pedido) }}
+          </span>
+        </div>
+        <div class="pedido-info">
+          <p><strong>Data:</strong> {{ getData(pedido) }}</p>
+          <p><strong>Total:</strong> R$ {{ getTotal(pedido) | number:'1.2-2' }}</p>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PessoaService } from '../../core/services/pessoa.service';
 import { Pessoa } from '../../core/models/pessoa.model';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-cadastro-cliente',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './cadastro-cliente.component.html',
   styleUrls: ['./cadastro-cliente.component.css']
 })

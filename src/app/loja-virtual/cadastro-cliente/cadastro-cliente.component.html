@@ -1,6 +1,11 @@
 <div class="page-container">
-    <div class="form-card">
-      <h2>Cadastro de Cliente</h2>
+  <div class="form-card">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
+      <h2 style="margin: 0;">Cadastro de Cliente</h2>
+      <a routerLink="/catalogo" class="btn-voltar">← Home</a>
+    </div>
+    
+    <!-- ... resto do formulário ... -->
       
       <form (ngSubmit)="salvar()">
         <div class="form-group">

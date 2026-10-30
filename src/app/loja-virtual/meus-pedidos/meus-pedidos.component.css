@@ -1,0 +1,15 @@
+.page-container { max-width: 800px; margin: 20px auto; padding: 20px; }
+h2 { color: #2b4a3f; margin-bottom: 20px; }
+.aviso { text-align: center; padding: 40px; background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.aviso p { margin-bottom: 20px; font-size: 1.1rem; }
+.card-pedido { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 15px; padding: 15px 20px; }
+.pedido-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-bottom: 10px; }
+.pedido-header h3 { margin: 0; color: #2b4a3f; }
+.pedido-info p { margin: 5px 0; color: #555; }
+.btn { padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; text-decoration: none; display: inline-block; }
+.btn-primary { background-color: #2b4a3f; color: white; }
+
+/* Status */
+.status-aberto { color: #f57c00; font-weight: bold; }
+.status-concluido { color: #2e7d32; font-weight: bold; }
+.status-cancelado { color: #c62828; font-weight: bold; }

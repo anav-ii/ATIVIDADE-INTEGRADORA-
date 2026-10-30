@@ -1,7 +1,10 @@
 <div class="admin-container">
-    <div class="admin-header">
-      <h2>Clientes Cadastrados</h2>
-    </div>
+    <div class="admin-container">
+        <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Clientes Cadastrados</h2>
+          <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar </a>
+        </div>
+        <!-- ... resto do código ... -->
   
     <div *ngIf="carregando" style="text-align: center; padding: 20px;">
       Carregando clientes...

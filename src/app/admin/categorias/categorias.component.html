@@ -1,0 +1,39 @@
+<div class="admin-container">
+    <div class="admin-container">
+        <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+          <h2>Gerenciar Categorias</h2>
+          <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
+        </div>
+       
+    <!-- Formulário de Cadastro -->
+    <div class="form-card">
+      <h3>Nova Categoria</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome da Categoria:</label>
+          <input type="text" [(ngModel)]="novaCategoria.Categoriacol" placeholder="Ex: Maquiagem">
+        </div>
+        <button class="btn btn-primary" (click)="cadastrarCategoria()">Cadastrar</button>
+      </div>
+    </div>
+  
+    <!-- Lista de Categorias -->
+    <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+      Carregando categorias...
+    </div>
+  
+    <table class="tabela-admin" *ngIf="!carregando">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome da Categoria</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cat of categorias">
+          <td>{{ getId(cat) }}</td>
+          <td>{{ getNome(cat) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

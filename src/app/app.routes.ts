@@ -14,5 +14,11 @@ export const routes: Routes = [
   
   { path: 'admin/estoque', loadComponent: () => import('./admin/estoque/estoque.component').then(m => m.EstoqueComponent) },
 
-  { path: 'admin/clientes', loadComponent: () => import('./admin/clientes/clientes.component').then(m => m.ClientesComponent) }
+  { path: 'admin/clientes', loadComponent: () => import('./admin/clientes/clientes.component').then(m => m.ClientesComponent) },
+
+  { path: 'admin/categorias', loadComponent: () => import('./admin/categorias/categorias.component').then(m => m.CategoriasComponent) },
+
+  { path: 'meus-pedidos', loadComponent: () => import('./loja-virtual/meus-pedidos/meus-pedidos.component').then(m => m.MeusPedidosComponent) },
+
+  { path: 'admin/entradas-produtos', loadComponent: () => import('./admin/entradas-produtos/entradas-produtos.component').then(m => m.EntradasProdutosComponent) }
 ];
