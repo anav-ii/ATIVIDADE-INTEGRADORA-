@@ -2,7 +2,7 @@ import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { PessoaService } from '../../core/models/pessoa.service';
+import { PessoaService } from '../../core/services/pessoa.service';
 import { Pessoa } from '../../core/models/pessoa.model';
 
 @Component({

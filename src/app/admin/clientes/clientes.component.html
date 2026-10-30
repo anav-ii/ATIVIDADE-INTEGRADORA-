@@ -1,0 +1,30 @@
+<div class="admin-container">
+    <div class="admin-header">
+      <h2>Clientes Cadastrados</h2>
+    </div>
+  
+    <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+      Carregando clientes...
+    </div>
+  
+    <table class="tabela-admin" *ngIf="!carregando">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>CPF</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{ getId(cliente) }}</td>
+          <td>{{ getNome(cliente) }}</td>
+          <td>{{ getCpf(cliente) }}</td>
+          <td>{{ getEmail(cliente) }}</td>
+          <td>{{ getTelefone(cliente) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

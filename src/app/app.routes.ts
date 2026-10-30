@@ -12,5 +12,7 @@ export const routes: Routes = [
   
   { path: 'admin/pedidos', loadComponent: () => import('./admin/pedidos/pedidos.component').then(m => m.PedidosComponent) },
   
-  { path: 'admin/estoque', loadComponent: () => import('./admin/estoque/estoque.component').then(m => m.EstoqueComponent) }
+  { path: 'admin/estoque', loadComponent: () => import('./admin/estoque/estoque.component').then(m => m.EstoqueComponent) },
+
+  { path: 'admin/clientes', loadComponent: () => import('./admin/clientes/clientes.component').then(m => m.ClientesComponent) }
 ];
