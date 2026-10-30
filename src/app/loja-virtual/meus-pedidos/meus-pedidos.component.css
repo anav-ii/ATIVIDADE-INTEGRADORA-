@@ -13,3 +13,7 @@ h2 { color: #2b4a3f; margin-bottom: 20px; }
 .status-aberto { color: #f57c00; font-weight: bold; }
 .status-concluido { color: #2e7d32; font-weight: bold; }
 .status-cancelado { color: #c62828; font-weight: bold; }
+.pedido-itens { margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; }
+.pedido-itens h4 { margin: 0 0 10px 0; color: #555; font-size: 0.9rem; }
+.pedido-itens ul { list-style: none; padding: 0; margin: 0; }
+.pedido-itens li { padding: 5px 0; color: #666; font-size: 0.9rem; }

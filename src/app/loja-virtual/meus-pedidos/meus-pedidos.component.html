@@ -16,21 +16,33 @@
     </div>
   
     <div *ngIf="idCliente && !carregando && pedidos.length > 0" class="lista-pedidos">
-      <div class="card-pedido" *ngFor="let pedido of pedidos">
-        <div class="pedido-header">
-          <h3>Pedido #{{ getId(pedido) }}</h3>
-          <span [ngClass]="{
-            'status-aberto': getStatus(pedido) === 'Aberto',
-            'status-concluido': getStatus(pedido) === 'Concluido',
-            'status-cancelado': getStatus(pedido) === 'Cancelado'
-          }">
-            {{ getStatus(pedido) }}
-          </span>
-        </div>
-        <div class="pedido-info">
-          <p><strong>Data:</strong> {{ getData(pedido) }}</p>
-          <p><strong>Total:</strong> R$ {{ getTotal(pedido) | number:'1.2-2' }}</p>
-        </div>
-      </div>
-    </div>
-  </div>
+        <div class="card-pedido" *ngFor="let pedido of pedidos">
+            <div class="pedido-header">
+              <h3>Pedido #{{ getId(pedido) }}</h3>
+              <span [ngClass]="{
+                'status-aberto': getStatus(pedido) === 'Aberto',
+                'status-concluido': getStatus(pedido) === 'Concluido',
+                'status-cancelado': getStatus(pedido) === 'Cancelado'
+              }">
+                {{ getStatus(pedido) }}
+              </span>
+            </div>
+            
+            <div class="pedido-info">
+              <p><strong>Data:</strong> {{ getData(pedido) }}</p>
+              <p><strong>Total:</strong> R$ {{ getTotal(pedido) | number:'1.2-2' }}</p>
+            </div>
+      
+            <!-- LISTA DE ITENS DO PEDIDO -->
+            <div class="pedido-itens">
+              <h4>Itens do Pedido:</h4>
+              <ul>
+                <li *ngFor="let item of (pedido.itens || pedido.Itens)">
+                  {{ item.item || item.Item }} 
+                  (x{{ item.quantidade || item.Quantidade }}) 
+                  - R$ {{ (item.valorUnitario || item.ValorUnitario) | number:'1.2-2' }}
+                </li>
+              </ul>
+            </div>
+          </div>
+        

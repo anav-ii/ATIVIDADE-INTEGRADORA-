@@ -1,19 +1,22 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AtendimentoService } from '../../core/services/atendimento.service';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router'; // Importante para o botão de voltar
+import { AtendimentoService } from '../../core/services/atendimento.service';
 
 @Component({
   selector: 'app-pedidos-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink], // Adicionado RouterLink
   templateUrl: './pedidos.component.html',
   styleUrls: ['./pedidos.component.css']
 })
 export class PedidosComponent implements OnInit {
   pedidos: any[] = [];
   carregando: boolean = true;
+  
+  // Variável do filtro de status
+  filtroStatus: string = 'Todos'; 
 
   constructor(
     private atendimentoService: AtendimentoService,
@@ -39,10 +42,17 @@ export class PedidosComponent implements OnInit {
     });
   }
 
+  // Função que filtra os pedidos com base na seleção
+  getPedidosFiltrados(): any[] {
+    if (this.filtroStatus === 'Todos') {
+      return this.pedidos;
+    }
+    return this.pedidos.filter(p => this.getStatus(p) === this.filtroStatus);
+  }
+
   alterarStatus(pedido: any, novoStatus: string): void {
     const idAtendimento = pedido.IdAtendimento || pedido.idAtendimento;
     
-    // Monta o objeto para enviar ao C#
     const pedidoAtualizado = {
       IdAtendimento: idAtendimento,
       IdPessoa: pedido.IdPessoa || pedido.idPessoa,
@@ -59,14 +69,10 @@ export class PedidosComponent implements OnInit {
 
     this.atendimentoService.atualizar(idAtendimento, pedidoAtualizado).subscribe({
       next: () => {
-        // 1. Atualiza o objeto localmente para o Angular já ver a mudança
-        pedido.StatusAtendimento = novoStatus;
-        pedido.statusAtendimento = novoStatus;
-
-        // 2. Avisa o Angular para redesenhar a tela
-        this.cdr.detectChanges(); 
-        
         alert(`Pedido #${idAtendimento} alterado para: ${novoStatus}`);
+        pedido.StatusAtendimento = novoStatus; // Atualiza localmente
+        pedido.statusAtendimento = novoStatus;
+        this.cdr.detectChanges();
       },
       error: (err: any) => {
         console.error('Erro no backend:', err);
@@ -75,6 +81,7 @@ export class PedidosComponent implements OnInit {
     });
   }
 
+  // Funções auxiliares
   getId(p: any): number { return p.IdAtendimento || p.idAtendimento; }
   getCliente(p: any): string { return p.NomePessoa || p.nomePessoa || 'Cliente Desconhecido'; }
   getData(p: any): string { return p.DataAtendimento || p.dataAtendimento || ''; }

@@ -50,8 +50,15 @@ export class CatalogoComponent implements OnInit {
   carregarItens(): void {
     this.itemService.listar().subscribe({
       next: (dados: any) => {
-        this.itens = dados;
-        this.itensFiltrados = dados; 
+        console.log('Dados recebidos da API:', dados); // Ajuda a debugar
+        
+        // FILTRA APENAS ITENS ATIVOS ('S' ou 'ativo')
+        this.itens = dados.filter((item: any) => {
+          const status = (item.AtivoProdutoServico || item.ativoProdutoServico || '').toUpperCase();
+          return status === 'S' || status === 'ATIVO';
+        });
+        
+        this.itensFiltrados = this.itens;
         this.carregando = false;
         this.cdr.detectChanges(); 
       },

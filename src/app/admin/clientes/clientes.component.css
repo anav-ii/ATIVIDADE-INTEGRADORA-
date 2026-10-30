@@ -1,18 +1,10 @@
-.admin-container { max-width: 1000px; margin: 20px auto; padding: 20px; }
-
-.tabela-admin { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }
-.tabela-admin th, .tabela-admin td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
-.tabela-admin th { background-color: #f8f9fa; color: #2b4a3f; font-weight: bold; }
-.tabela-admin tr:hover { background-color: #f1f1f1; }
-.admin-header {
-    background-color: #2b4a3f;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px 8px 0 0;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between; /* Coloca um de cada lado */
-    align-items: center; /* Alinha verticalmente no centro */
-  }
+.admin-container { max-width: 1300px; margin: 20px auto; padding: 20px; } /* Aumentei a largura */
+.admin-header { background-color: #2b4a3f; color: white; padding: 15px 20px; border-radius: 8px 8px 0 0; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+.admin-header h2 { margin: 0; font-size: 1.2rem; font-weight: normal; }
 .btn-voltar { background-color: #fff; color: #2b4a3f; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.9rem; transition: background 0.2s; }
 .btn-voltar:hover { background-color: #e0e0e0; }
+
+.tabela-admin { width: 100%; border-collapse: collapse; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; font-size: 0.85rem; }
+.tabela-admin th, .tabela-admin td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
+.tabela-admin th { background-color: #f8f9fa; color: #2b4a3f; font-weight: bold; white-space: nowrap; }
+.tabela-admin tr:hover { background-color: #f1f1f1; }

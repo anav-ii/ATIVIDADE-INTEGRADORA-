@@ -1,10 +1,8 @@
 <div class="admin-container">
-    <div class="admin-container">
-        <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
-          <h2>Clientes Cadastrados</h2>
-          <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar </a>
-        </div>
-        <!-- ... resto do código ... -->
+    <div class="admin-header">
+      <h2>Clientes Cadastrados</h2>
+      <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+    </div>
   
     <div *ngIf="carregando" style="text-align: center; padding: 20px;">
       Carregando clientes...
@@ -16,8 +14,12 @@
           <th>ID</th>
           <th>Nome</th>
           <th>CPF</th>
+          <th>Data Nasc.</th>
           <th>E-mail</th>
           <th>Telefone</th>
+          <th>CEP</th>
+          <th>Número</th>
+          <th>Complemento</th>
         </tr>
       </thead>
       <tbody>
@@ -25,8 +27,12 @@
           <td>{{ getId(cliente) }}</td>
           <td>{{ getNome(cliente) }}</td>
           <td>{{ getCpf(cliente) }}</td>
+          <td>{{ getDataNascimento(cliente) }}</td>
           <td>{{ getEmail(cliente) }}</td>
           <td>{{ getTelefone(cliente) }}</td>
+          <td>{{ getEndereco(cliente)?.CEP || '-' }}</td>
+          <td>{{ getEndereco(cliente)?.Numero || '-' }}</td>
+          <td>{{ getEndereco(cliente)?.Complemento || '-' }}</td>
         </tr>
       </tbody>
     </table>

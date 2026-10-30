@@ -54,7 +54,7 @@ export class CadastroClienteComponent {
       return;
     }
 
-    // Monta o objeto com os nomes que o C# espera
+    // Monta o objeto EXATAMENTE como o C# espera (PessoaDTO)
     const pessoaParaEnviar = {
       IdPessoa: 0,
       Nome: this.pessoa.Nome,
@@ -68,18 +68,19 @@ export class CadastroClienteComponent {
         {
           IdEndereco: 0,
           IdPessoa: 0,
-          CEP: this.pessoa.Enderecos[0].CEP || '',
+          CEP: this.pessoa.Enderecos[0].CEP || '', // Garante que o CEP vai
           Numero: this.pessoa.Enderecos[0].Numero || '',
           Complemento: this.pessoa.Enderecos[0].Complemento || ''
         }
       ]
     };
 
+    console.log('Enviando para o C#:', pessoaParaEnviar); // Ajuda a debugar
+
     this.pessoaService.cadastrar(pessoaParaEnviar).subscribe({
       next: (resposta: any) => {
         alert('Cliente cadastrado com sucesso!');
-        // Salva o ID do cliente para usar no carrinho
-        const idCliente = resposta.IdPessoa || resposta.idPessoa;
+        const idCliente = resposta.idPessoa || resposta.IdPessoa;
         if (idCliente) {
           localStorage.setItem('idCliente', idCliente.toString());
         }
@@ -87,7 +88,7 @@ export class CadastroClienteComponent {
       },
       error: (err: any) => {
         console.error(err);
-        alert('Erro ao cadastrar. Verifique se o CPF já existe ou se os dados estão corretos.');
+        alert('Erro ao cadastrar. Verifique se o CPF já existe.');
         this.cdr.detectChanges();
       }
     });

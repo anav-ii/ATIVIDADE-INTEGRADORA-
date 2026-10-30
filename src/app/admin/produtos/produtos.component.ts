@@ -26,7 +26,11 @@ export class ProdutosComponent implements OnInit {
   carregarItens(): void {
     this.itemService.listar().subscribe({
       next: (dados: any) => {
-        this.itens = dados;
+        // FILTRA APENAS PRODUTOS ('P')
+        this.itens = dados.filter((i: any) => {
+          const tipo = (i.TipoItem || i.tipoItem || '').toUpperCase();
+          return tipo === 'P';
+        });
         this.carregando = false;
         this.cdr.detectChanges();
       },

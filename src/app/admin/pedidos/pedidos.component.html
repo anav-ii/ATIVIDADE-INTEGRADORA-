@@ -1,7 +1,19 @@
 <div class="admin-container">
-  <div class="admin-header">
+  <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Gerenciar Pedidos</h2>
-    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+  </div>
+
+  <!-- FILTRO -->
+  <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+    <label style="font-weight: bold; color: #2b4a3f;">Filtrar por Status:</label>
+    <select [(ngModel)]="filtroStatus" class="select-filtro">
+      <option value="Todos">Todos</option>
+      <option value="Aberto">Aberto</option>
+      <option value="Em processamento">Em processamento</option>
+      <option value="Concluido">Concluído</option>
+      <option value="Cancelado">Cancelado</option>
+    </select>
   </div>
 
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">
@@ -19,7 +31,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let pedido of pedidos">
+      <!-- Usa a função de filtro aqui -->
+      <tr *ngFor="let pedido of getPedidosFiltrados()">
         <td>#{{ getId(pedido) }}</td>
         <td>{{ getCliente(pedido) }}</td>
         <td>{{ getData(pedido) }}</td>
@@ -34,12 +47,9 @@
           </span>
         </td>
         <td>
-          <!-- Menu Suspenso para alterar o status -->
-          <select 
-            class="select-status" 
-            [ngModel]="getStatus(pedido)" 
-            (ngModelChange)="alterarStatus(pedido, $event)">
-            
+          <select class="select-status" 
+                  [ngModel]="getStatus(pedido)" 
+                  (ngModelChange)="alterarStatus(pedido, $event)">
             <option value="Aberto">Aberto</option>
             <option value="Em processamento">Em processamento</option>
             <option value="Concluido">Concluído</option>

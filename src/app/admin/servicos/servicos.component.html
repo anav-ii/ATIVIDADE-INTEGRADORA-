@@ -1,0 +1,65 @@
+<div class="admin-container">
+    <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+      <h2>Gerenciar Serviços</h2>
+      <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+    </div>
+  
+    <!-- Formulário de Cadastro -->
+    <div class="form-card">
+      <h3>Adicionar Novo Serviço</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Categoria (ID):</label>
+          <input type="number" [(ngModel)]="novoCategoriaId" placeholder="Ex: 2">
+        </div>
+        <div class="form-group">
+          <label>Nome do Serviço:</label>
+          <input type="text" [(ngModel)]="novoNome" placeholder="Ex: Massagem">
+        </div>
+        <div class="form-group">
+          <label>Preço (R$):</label>
+          <input type="number" [(ngModel)]="novoPreco" step="0.01">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Descrição:</label>
+        <input type="text" [(ngModel)]="novoDescricao" placeholder="Descrição do serviço">
+      </div>
+      <button class="btn btn-primary" (click)="cadastrarServico()">Cadastrar Serviço</button>
+    </div>
+  
+    <!-- Lista de Serviços -->
+    <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+      Carregando serviços...
+    </div>
+  
+    <table class="tabela-admin" *ngIf="!carregando">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome do Serviço</th>
+          <th>Preço</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let servico of servicos">
+          <td>{{ getId(servico) }}</td>
+          <td>{{ getNome(servico) }}</td>
+          <td>R$ {{ getPreco(servico) | number:'1.2-2' }}</td>
+          <td>
+            <span [class.ativo]="getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo'" 
+                  [class.inativo]="getAtivo(servico) === 'N'">
+              {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Ativo' : 'Inativo' }}
+            </span>
+          </td>
+          <td>
+            <button (click)="alternarStatus(servico)" class="btn btn-sm btn-outline">
+              {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Desativar' : 'Ativar' }}
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

@@ -20,5 +20,7 @@ export const routes: Routes = [
 
   { path: 'meus-pedidos', loadComponent: () => import('./loja-virtual/meus-pedidos/meus-pedidos.component').then(m => m.MeusPedidosComponent) },
 
-  { path: 'admin/entradas-produtos', loadComponent: () => import('./admin/entradas-produtos/entradas-produtos.component').then(m => m.EntradasProdutosComponent) }
+  { path: 'admin/entradas-produtos', loadComponent: () => import('./admin/entradas-produtos/entradas-produtos.component').then(m => m.EntradasProdutosComponent) },
+
+  { path: 'admin/servicos', loadComponent: () => import('./admin/servicos/servicos.component').then(m => m.ServicosComponent) }
 ];
