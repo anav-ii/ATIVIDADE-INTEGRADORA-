@@ -20,4 +20,9 @@ export class ItemService {
   atualizar(id: number, item: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${id}`, item);
   }
+
+  cadastrarProduto(produto: any): Observable<any> {
+    // Chama o endpoint ProdutoItem para criar Item + Produto
+    return this.http.post('https://localhost:7142/api/ProdutoItem', produto);
+  }
 }

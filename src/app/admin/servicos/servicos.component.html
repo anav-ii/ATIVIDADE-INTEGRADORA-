@@ -1,65 +1,79 @@
+<!-- Container principal da tela -->
 <div class="admin-container">
-    <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>Gerenciar Serviços</h2>
-      <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
-    </div>
   
-    <!-- Formulário de Cadastro -->
-    <div class="form-card">
-      <h3>Adicionar Novo Serviço</h3>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Categoria (ID):</label>
-          <input type="number" [(ngModel)]="novoCategoriaId" placeholder="Ex: 2">
-        </div>
-        <div class="form-group">
-          <label>Nome do Serviço:</label>
-          <input type="text" [(ngModel)]="novoNome" placeholder="Ex: Massagem">
-        </div>
-        <div class="form-group">
-          <label>Preço (R$):</label>
-          <input type="number" [(ngModel)]="novoPreco" step="0.01">
-        </div>
+  <!-- Cabeçalho verde escuro -->
+  <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Gerenciar Serviços</h2>
+    <!-- Botão para voltar ao Dashboard -->
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+  </div>
+
+  <!-- Formulário de Cadastro de Serviço -->
+  <div class="form-card">
+    <h3>Adicionar Novo Serviço</h3>
+    
+    <!-- Linha 1: Categoria, Nome e Preço -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Categoria (ID):</label>
+        <input type="number" [(ngModel)]="novoCategoriaId" placeholder="Ex: 2">
       </div>
       <div class="form-group">
-        <label>Descrição:</label>
-        <input type="text" [(ngModel)]="novoDescricao" placeholder="Descrição do serviço">
+        <label>Nome do Serviço:</label>
+        <input type="text" [(ngModel)]="novoNome" placeholder="Ex: Massagem">
       </div>
-      <button class="btn btn-primary" (click)="cadastrarServico()">Cadastrar Serviço</button>
+      <div class="form-group">
+        <label>Preço (R$):</label>
+        <input type="number" [(ngModel)]="novoPreco" step="0.01">
+      </div>
     </div>
-  
-    <!-- Lista de Serviços -->
-    <div *ngIf="carregando" style="text-align: center; padding: 20px;">
-      Carregando serviços...
+
+    <!-- Descrição -->
+    <div class="form-group">
+      <label>Descrição:</label>
+      <input type="text" [(ngModel)]="novoDescricao" placeholder="Descrição do serviço">
     </div>
-  
-    <table class="tabela-admin" *ngIf="!carregando">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome do Serviço</th>
-          <th>Preço</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let servico of servicos">
-          <td>{{ getId(servico) }}</td>
-          <td>{{ getNome(servico) }}</td>
-          <td>R$ {{ getPreco(servico) | number:'1.2-2' }}</td>
-          <td>
-            <span [class.ativo]="getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo'" 
-                  [class.inativo]="getAtivo(servico) === 'N'">
-              {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Ativo' : 'Inativo' }}
-            </span>
-          </td>
-          <td>
-            <button (click)="alternarStatus(servico)" class="btn btn-sm btn-outline">
-              {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Desativar' : 'Ativar' }}
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <!-- Botão que chama a função 'cadastrarServico()' -->
+    <button class="btn btn-primary" (click)="cadastrarServico()">Cadastrar Serviço</button>
   </div>
+
+  <!-- Mensagem de carregamento -->
+  <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+    Carregando serviços...
+  </div>
+
+  <!-- Tabela de Serviços -->
+  <table class="tabela-admin" *ngIf="!carregando">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome do Serviço</th>
+        <th>Preço</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Laço de repetição: para cada 'servico' na lista 'servicos', cria uma linha -->
+      <tr *ngFor="let servico of servicos">
+        <td>{{ getId(servico) }}</td>
+        <td>{{ getNome(servico) }}</td>
+        <td>R$ {{ getPreco(servico) | number:'1.2-2' }}</td>
+        <td>
+          <!-- Se estiver ativo, aplica a classe 'ativo' (verde). Se inativo, 'inativo' (vermelho) -->
+          <span [class.ativo]="getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo'" 
+                [class.inativo]="getAtivo(servico) === 'N'">
+            {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Ativo' : 'Inativo' }}
+          </span>
+        </td>
+        <td>
+          <!-- Botão que chama a função 'alternarStatus()' para mudar o status -->
+          <button (click)="alternarStatus(servico)" class="btn btn-sm btn-outline">
+            {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Desativar' : 'Ativar' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,13 +1,60 @@
+<!-- Container principal da tela -->
 <div class="admin-container">
+  
+  <!-- Cabeçalho verde escuro -->
   <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
-    <h2>Gerenciar Produtos e Serviços</h2>
-    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
+    <h2>Gerenciar Produtos</h2>
+    <!-- Botão para voltar ao Dashboard -->
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
   </div>
 
-  <div *ngIf="carregando" style="text-align: center; padding: 20px;">
-    Carregando itens...
+  <!-- Formulário de Cadastro de Produto -->
+  <div class="form-card">
+    <h3>Adicionar Novo Produto</h3>
+    
+    <!-- Linha 1: Categoria e Nome -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Categoria (ID):</label>
+        <!-- Input ligado à variável 'novoCategoriaId' -->
+        <input type="number" [(ngModel)]="novoCategoriaId" placeholder="Ex: 2">
+      </div>
+      <div class="form-group">
+        <label>Nome do Produto:</label>
+        <input type="text" [(ngModel)]="novoNome" placeholder="Ex: Shampoo">
+      </div>
+    </div>
+    
+    <!-- Linha 2: Preço de Custo, Venda e Unidade -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Preço de Custo (R$):</label>
+        <input type="number" [(ngModel)]="novoPreco" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Preço de Venda (R$):</label>
+        <input type="number" [(ngModel)]="novoPrecoVenda" step="0.01">
+      </div>
+      <div class="form-group">
+        <label>Unidade:</label>
+        <input type="text" [(ngModel)]="novaUnidade" placeholder="UN">
+      </div>
+    </div>
+
+    <!-- Descrição -->
+    <div class="form-group">
+      <label>Descrição:</label>
+      <input type="text" [(ngModel)]="novoDescricao" placeholder="Descrição do produto">
+    </div>
+
+    <!-- Botão que chama a função 'cadastrarProduto()' -->
+    <button class="btn btn-primary" (click)="cadastrarProduto()">Cadastrar Produto</button>
   </div>
 
+  <!-- Mensagem de carregamento -->
+  <div *ngIf="carregando" style="text-align: center; padding: 20px;">Carregando...</div>
+  
+  <!-- Tabela de Produtos -->
   <table class="tabela-admin" *ngIf="!carregando">
     <thead>
       <tr>
@@ -19,17 +66,20 @@
       </tr>
     </thead>
     <tbody>
+      <!-- Laço de repetição: para cada 'item' na lista 'itens', cria uma linha -->
       <tr *ngFor="let item of itens">
         <td>{{ getId(item) }}</td>
         <td>{{ getNome(item) }}</td>
         <td>R$ {{ getPreco(item) | number:'1.2-2' }}</td>
         <td>
+          <!-- Se estiver ativo, aplica a classe 'ativo' (verde). Se inativo, 'inativo' (vermelho) -->
           <span [class.ativo]="getAtivo(item) === 'S' || getAtivo(item) === 'ativo'" 
                 [class.inativo]="getAtivo(item) === 'N'">
             {{ (getAtivo(item) === 'S' || getAtivo(item) === 'ativo') ? 'Ativo' : 'Inativo' }}
           </span>
         </td>
         <td>
+          <!-- Botão que chama a função 'alternarStatus()' para mudar o status -->
           <button (click)="alternarStatus(item)" class="btn btn-sm btn-outline">
             {{ (getAtivo(item) === 'S' || getAtivo(item) === 'ativo') ? 'Desativar' : 'Ativar' }}
           </button>

@@ -1,48 +1,61 @@
+<!-- Container principal da tela -->
 <div class="page-container">
-    <h2>Meus Pedidos</h2>
-  
-    <div *ngIf="!idCliente" class="aviso">
-      <p>Você precisa se cadastrar para ver seus pedidos.</p>
-      <a routerLink="/cadastro" class="btn btn-primary">Cadastrar-se</a>
-    </div>
-  
-    <div *ngIf="idCliente && carregando" style="text-align: center; padding: 20px;">
-      Carregando pedidos...
-    </div>
-  
-    <div *ngIf="idCliente && !carregando && pedidos.length === 0" class="aviso">
-      <p>Você ainda não fez nenhum pedido.</p>
-      <a routerLink="/catalogo" class="btn btn-primary">Ir para a Loja</a>
-    </div>
-  
-    <div *ngIf="idCliente && !carregando && pedidos.length > 0" class="lista-pedidos">
-        <div class="card-pedido" *ngFor="let pedido of pedidos">
-            <div class="pedido-header">
-              <h3>Pedido #{{ getId(pedido) }}</h3>
-              <span [ngClass]="{
-                'status-aberto': getStatus(pedido) === 'Aberto',
-                'status-concluido': getStatus(pedido) === 'Concluido',
-                'status-cancelado': getStatus(pedido) === 'Cancelado'
-              }">
-                {{ getStatus(pedido) }}
-              </span>
-            </div>
-            
-            <div class="pedido-info">
-              <p><strong>Data:</strong> {{ getData(pedido) }}</p>
-              <p><strong>Total:</strong> R$ {{ getTotal(pedido) | number:'1.2-2' }}</p>
-            </div>
+  <h2>Meus Pedidos</h2>
+
+  <!-- Mensagem que aparece se o cliente NÃO estiver logado -->
+  <div *ngIf="!idCliente" class="aviso">
+    <p>Você precisa se cadastrar para ver seus pedidos.</p>
+    <a routerLink="/cadastro" class="btn btn-primary">Cadastrar-se</a>
+  </div>
+
+  <!-- Mensagem de carregamento (só aparece se estiver logado e carregando) -->
+  <div *ngIf="idCliente && carregando" style="text-align: center; padding: 20px;">
+    Carregando pedidos...
+  </div>
+
+  <!-- Mensagem que aparece se o cliente estiver logado e não tiver pedidos -->
+  <div *ngIf="idCliente && !carregando && pedidos.length === 0" class="aviso">
+    <p>Você ainda não fez nenhum pedido.</p>
+    <a routerLink="/catalogo" class="btn btn-primary">Ir para a Loja</a>
+  </div>
+
+  <!-- Lista de pedidos (só aparece se tiver pedidos) -->
+  <div *ngIf="idCliente && !carregando && pedidos.length > 0" class="lista-pedidos">
+    
+    <!-- Laço de repetição: cria um card para cada pedido -->
+    <div class="card-pedido" *ngFor="let pedido of pedidos">
       
-            <!-- LISTA DE ITENS DO PEDIDO -->
-            <div class="pedido-itens">
-              <h4>Itens do Pedido:</h4>
-              <ul>
-                <li *ngFor="let item of (pedido.itens || pedido.Itens)">
-                  {{ item.item || item.Item }} 
-                  (x{{ item.quantidade || item.Quantidade }}) 
-                  - R$ {{ (item.valorUnitario || item.ValorUnitario) | number:'1.2-2' }}
-                </li>
-              </ul>
-            </div>
-          </div>
-        
+      <!-- Cabeçalho do card (ID e Status) -->
+      <div class="pedido-header">
+        <h3>Pedido #{{ getId(pedido) }}</h3>
+        <!-- Aplica uma classe CSS diferente para cada status -->
+        <span [ngClass]="{
+          'status-aberto': getStatus(pedido) === 'Aberto',
+          'status-concluido': getStatus(pedido) === 'Concluido',
+          'status-cancelado': getStatus(pedido) === 'Cancelado'
+        }">
+          {{ getStatus(pedido) }}
+        </span>
+      </div>
+      
+      <!-- Informações do pedido (Data e Total) -->
+      <div class="pedido-info">
+        <p><strong>Data:</strong> {{ getData(pedido) }}</p>
+        <p><strong>Total:</strong> R$ {{ getTotal(pedido) | number:'1.2-2' }}</p>
+      </div>
+
+      <!-- LISTA DE ITENS DO PEDIDO -->
+      <div class="pedido-itens">
+        <h4>Itens do Pedido:</h4>
+        <ul>
+          <!-- Laço de repetição: cria um item para cada produto do pedido -->
+          <li *ngFor="let item of (pedido.itens || pedido.Itens)">
+            {{ item.item || item.Item }} 
+            (x{{ item.quantidade || item.Quantidade }}) 
+            - R$ {{ (item.valorUnitario || item.ValorUnitario) | number:'1.2-2' }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

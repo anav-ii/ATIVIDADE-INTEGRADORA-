@@ -1,13 +1,18 @@
+<!-- Container principal da tela -->
 <div class="page-container">
   <div class="catalogo-layout">
     
-    <!-- Menu Lateral de Categorias -->
+    <!-- =========================================
+         MENU LATERAL DE CATEGORIAS
+         ========================================= -->
     <aside class="filtros-sidebar">
       <h3>Categorias</h3>
       <ul>
+        <!-- Botão "Todas" (categoriaSelecionada = null) -->
         <li [class.active]="categoriaSelecionada === null" (click)="selecionarCategoria(null)">
           Todas
         </li>
+        <!-- Laço de repetição: cria um item para cada categoria -->
         <li *ngFor="let cat of categorias" 
             [class.active]="categoriaSelecionada === getIdCategoria(cat)"
             (click)="selecionarCategoria(getIdCategoria(cat))">
@@ -16,13 +21,16 @@
       </ul>
     </aside>
 
-    <!-- Área Principal -->
+    <!-- =========================================
+         ÁREA PRINCIPAL (PRODUTOS)
+         ========================================= -->
     <section class="produtos-area">
       
-      <!-- Cabeçalho com Busca -->
+      <!-- Cabeçalho com Título e Busca -->
       <div class="busca-header">
         <h2>Produtos e Serviços</h2>
         <div class="busca-input">
+          <!-- Input ligado a 'termoBusca'. Ao digitar, chama 'filtrarPorNome()' -->
           <input 
             type="text" 
             placeholder="O que você procura?" 
@@ -37,8 +45,9 @@
         <p>Carregando produtos...</p>
       </div>
 
-      <!-- Grade de Produtos -->
+      <!-- Grade de Produtos (só aparece quando o carregamento termina) -->
       <div class="grid-produtos" *ngIf="!carregando">
+        <!-- Laço de repetição: cria um card para cada item filtrado -->
         <div class="card-produto" *ngFor="let item of itensFiltrados">
           
           <!-- Área da Imagem -->
@@ -46,19 +55,20 @@
             <span>Imagem</span>
           </div>
           
-          <!-- Informações -->
+          <!-- Informações do Produto -->
           <div class="card-info">
             <h4>{{ getNome(item) }}</h4>
             <p class="descricao">{{ getDescricao(item) }}</p>
             <p class="preco">R$ {{ getPreco(item) | number:'1.2-2' }}</p>
             <p class="tipo-badge">{{ getTipo(item) }}</p>
+            <!-- Botão que adiciona o item ao carrinho -->
             <button class="btn btn-primary btn-block" (click)="adicionarAoCarrinho(item)">
               Adicionar ao Carrinho
             </button>
           </div>
         </div>
 
-        <!-- Mensagem de Lista Vazia -->
+        <!-- Mensagem que aparece se a busca não retornar resultados -->
         <div *ngIf="itensFiltrados.length === 0" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
           <p>Nenhum produto encontrado.</p>
         </div>

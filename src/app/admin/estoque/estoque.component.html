@@ -1,15 +1,19 @@
+<!-- Container principal da tela (CORRIGIDO: removida a div duplicada) -->
 <div class="admin-container">
-  <div class="admin-container">
-    <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
-      <h2>Consulta de Estoque</h2>
-      <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar </a>
-    </div>
-   
+  
+  <!-- Cabeçalho verde escuro -->
+  <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Consulta de Estoque</h2>
+    <!-- Botão para voltar ao Dashboard -->
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
+  </div>
 
+  <!-- Mensagem que aparece enquanto os dados são buscados -->
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">
     Carregando estoque...
   </div>
 
+  <!-- Tabela que lista o estoque (só aparece quando o carregamento termina) -->
   <table class="tabela-admin" *ngIf="!carregando">
     <thead>
       <tr>
@@ -20,15 +24,17 @@
       </tr>
     </thead>
     <tbody>
+      <!-- Laço de repetição: para cada 'item' na lista 'itens', cria uma linha -->
       <tr *ngFor="let item of itens">
         <td>{{ getNome(item) }}</td>
         <td>{{ getTipo(item) }}</td>
         <td>R$ {{ getPreco(item) | number:'1.2-2' }}</td>
         <td>
-          <!-- Serviço: mostra "-" -->
+          <!-- Se for SERVIÇO, mostra apenas um traço "-" -->
           <span *ngIf="getTipo(item) === 'Serviço'">-</span>
           
-          <!-- Produto: mostra a quantidade -->
+          <!-- Se for PRODUTO, mostra a quantidade -->
+          <!-- A classe 'estoque-baixo' deixa o texto vermelho se a quantidade for menor que 5 -->
           <span *ngIf="getTipo(item) === 'Produto'" [class.estoque-baixo]="getQuantidade(item) < 5">
             {{ getQuantidade(item) }}
           </span>

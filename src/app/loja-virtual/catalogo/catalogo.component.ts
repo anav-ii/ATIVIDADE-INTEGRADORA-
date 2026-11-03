@@ -1,12 +1,16 @@
+// Importações do Angular
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms'; // Necessário para o ngModel da busca
+// Importa os serviços que conversam com o banco
 import { ItemService } from '../../core/services/item.service';
 import { CategoriaService } from '../../core/services/ategoria.service';
+import { CarrinhoService } from '../../core/services/carrinho.service';
+// Importa as interfaces (modelos de dados)
 import { Item } from '../../core/models/item.model';
 import { Categoria } from '../../core/models/categoria.model';
-import { CarrinhoService } from '../../core/services/carrinho.service';
 
+// Configuração do Componente
 @Component({
   selector: 'app-catalogo',
   standalone: true,
@@ -15,28 +19,33 @@ import { CarrinhoService } from '../../core/services/carrinho.service';
   styleUrls: ['./catalogo.component.css']
 })
 export class CatalogoComponent implements OnInit {
-  itens: Item[] = [];
-  itensFiltrados: Item[] = [];
-  categorias: Categoria[] = [];
+  // Listas que recebem os dados do banco
+  itens: Item[] = [];            // Todos os itens ativos
+  itensFiltrados: Item[] = [];   // Itens que aparecem na tela (após filtros)
+  categorias: Categoria[] = [];  // Categorias para o menu lateral
   
-  termoBusca: string = '';
-  categoriaSelecionada: number | null = null; 
+  // Variáveis de controle
+  termoBusca: string = '';                  // O que o usuário digitou na busca
+  categoriaSelecionada: number | null = null; // ID da categoria selecionada (null = Todas)
   
-  carregando: boolean = true;
-  erro: string = '';
+  carregando: boolean = true; // Controla a mensagem de "Carregando..."
+  erro: string = '';          // Mensagem de erro, se houver
 
+  // Injeção de dependências
   constructor(
     private itemService: ItemService,
     private categoriaService: CategoriaService,
-    private carrinhoService: CarrinhoService, 
+    private carrinhoService: CarrinhoService,
     private cdr: ChangeDetectorRef 
   ) {}
 
+  // Executa assim que a tela é aberta
   ngOnInit(): void {
     this.carregarCategorias();
     this.carregarItens();
   }
 
+  // Busca as categorias no banco
   carregarCategorias(): void {
     this.categoriaService.listar().subscribe({
       next: (dados: any) => { 
@@ -47,6 +56,7 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
+  // Busca todos os itens no banco e FILTRA apenas os ativos
   carregarItens(): void {
     this.itemService.listar().subscribe({
       next: (dados: any) => {
@@ -58,7 +68,7 @@ export class CatalogoComponent implements OnInit {
           return status === 'S' || status === 'ATIVO';
         });
         
-        this.itensFiltrados = this.itens;
+        this.itensFiltrados = this.itens; // Começa mostrando todos
         this.carregando = false;
         this.cdr.detectChanges(); 
       },
@@ -70,9 +80,11 @@ export class CatalogoComponent implements OnInit {
     });
   }
 
+  // Aplica os filtros (busca por nome + categoria)
   aplicarFiltros(): void {
     let resultado = this.itens;
 
+    // 1. Filtro por Nome
     if (this.termoBusca.trim()) {
       const termo = this.termoBusca.toLowerCase();
       resultado = resultado.filter(item => {
@@ -81,6 +93,7 @@ export class CatalogoComponent implements OnInit {
       });
     }
 
+    // 2. Filtro por Categoria
     if (this.categoriaSelecionada !== null) {
       resultado = resultado.filter(item => {
         const catId = item.Idcategoria || (item as any).idcategoria;
@@ -91,16 +104,21 @@ export class CatalogoComponent implements OnInit {
     this.itensFiltrados = resultado;
   }
 
+  // Chamado quando o usuário clica em uma categoria
   selecionarCategoria(id: any): void {
     this.categoriaSelecionada = id ? Number(id) : null; 
     this.aplicarFiltros();
   }
 
+  // Chamado quando o usuário digita na busca
   filtrarPorNome(): void {
     this.aplicarFiltros();
   }
 
-  // Funções auxiliares
+  // ==========================================
+  // Funções Auxiliares (Leitura dos dados)
+  // ==========================================
+  
   getNome(item: any): string { 
     return item.Item1 || item.item1 || 'Sem nome'; 
   }
@@ -126,6 +144,7 @@ export class CatalogoComponent implements OnInit {
     return cat.Idcategoria || cat.idcategoria;
   }
 
+  // Adiciona o item ao carrinho e mostra um alerta
   adicionarAoCarrinho(item: any): void {
     this.carrinhoService.adicionar(item);
     alert(`"${this.getNome(item)}" adicionado ao carrinho!`);

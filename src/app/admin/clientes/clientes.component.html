@@ -1,39 +1,48 @@
+<!-- Container principal da tela -->
 <div class="admin-container">
-    <div class="admin-header">
-      <h2>Clientes Cadastrados</h2>
-      <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
-    </div>
   
-    <div *ngIf="carregando" style="text-align: center; padding: 20px;">
-      Carregando clientes...
-    </div>
-  
-    <table class="tabela-admin" *ngIf="!carregando">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nome</th>
-          <th>CPF</th>
-          <th>Data Nasc.</th>
-          <th>E-mail</th>
-          <th>Telefone</th>
-          <th>CEP</th>
-          <th>Número</th>
-          <th>Complemento</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cliente of clientes">
-          <td>{{ getId(cliente) }}</td>
-          <td>{{ getNome(cliente) }}</td>
-          <td>{{ getCpf(cliente) }}</td>
-          <td>{{ getDataNascimento(cliente) }}</td>
-          <td>{{ getEmail(cliente) }}</td>
-          <td>{{ getTelefone(cliente) }}</td>
-          <td>{{ getEndereco(cliente)?.CEP || '-' }}</td>
-          <td>{{ getEndereco(cliente)?.Numero || '-' }}</td>
-          <td>{{ getEndereco(cliente)?.Complemento || '-' }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- Cabeçalho da tela (Verde escuro) -->
+  <div class="admin-header">
+    <h2>Clientes Cadastrados</h2>
+    <!-- Botão para voltar ao Dashboard -->
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
   </div>
+
+  <!-- Mensagem que aparece enquanto os dados são buscados no banco -->
+  <div *ngIf="carregando" style="text-align: center; padding: 20px;">
+    Carregando clientes...
+  </div>
+
+  <!-- Tabela que lista os clientes (só aparece quando o carregamento termina) -->
+  <table class="tabela-admin" *ngIf="!carregando">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>CPF</th>
+        <th>Data Nasc.</th>
+        <th>E-mail</th>
+        <th>Telefone</th>
+        <th>CEP</th>
+        <th>Número</th>
+        <th>Complemento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Laço de repetição: para cada 'cliente' na lista 'clientes', cria uma linha -->
+      <tr *ngFor="let cliente of clientes">
+        <td>{{ getId(cliente) }}</td>
+        <td>{{ getNome(cliente) }}</td>
+        <td>{{ getCpf(cliente) }}</td>
+        <td>{{ getDataNascimento(cliente) }}</td>
+        <td>{{ getEmail(cliente) }}</td>
+        <td>{{ getTelefone(cliente) }}</td>
+        
+        <!-- Endereço: usa o operador '?' para não quebrar se o endereço for nulo -->
+        <td>{{ getEndereco(cliente)?.CEP || '-' }}</td>
+        <td>{{ getEndereco(cliente)?.Numero || '-' }}</td>
+        <td>{{ getEndereco(cliente)?.Complemento || '-' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

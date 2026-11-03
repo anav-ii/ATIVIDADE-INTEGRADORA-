@@ -1,68 +1,77 @@
+<!-- Container principal da tela -->
 <div class="page-container">
   <div class="form-card">
+    
+    <!-- Cabeçalho com o título e o botão de voltar -->
     <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">
       <h2 style="margin: 0;">Cadastro de Cliente</h2>
       <a routerLink="/catalogo" class="btn-voltar">← Home</a>
     </div>
     
-    <!-- ... resto do formulário ... -->
+    <!-- Formulário -->
+    <form (ngSubmit)="salvar()">
       
-      <form (ngSubmit)="salvar()">
+      <!-- Nome -->
+      <div class="form-group">
+        <label>Nome Completo *</label>
+        <input type="text" [(ngModel)]="pessoa.Nome" name="nome" required>
+      </div>
+
+      <!-- Linha: CPF e Data de Nascimento -->
+      <div class="form-row">
         <div class="form-group">
-          <label>Nome Completo *</label>
-          <input type="text" [(ngModel)]="pessoa.Nome" name="nome" required>
-        </div>
-  
-        <div class="form-row">
-          <div class="form-group">
-            <label>CPF (apenas números) *</label>
-            <input type="number" [(ngModel)]="pessoa.CPF" name="cpf" required>
-          </div>
-          <div class="form-group">
-            <label>Data de Nascimento</label>
-            <input type="date" [(ngModel)]="pessoa.DataNascimento" name="dataNascimento">
-          </div>
-        </div>
-  
-        <div class="form-row">
-          <div class="form-group">
-            <label>E-mail *</label>
-            <input type="email" [(ngModel)]="pessoa.Email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label>Telefone (apenas números)</label>
-            <input type="number" [(ngModel)]="pessoa.Telefone" name="telefone">
-          </div>
-        </div>
-  
-        <div class="form-group">
-          <label>Sexo</label>
-          <select [(ngModel)]="pessoa.Sexo" name="sexo">
-            <option value="M">Masculino</option>
-            <option value="F">Feminino</option>
-          </select>
-        </div>
-  
-        <!-- Endereço -->
-        <h3>Endereço</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label>CEP</label>
-            <input type="text" [(ngModel)]="pessoa.Enderecos[0].CEP" name="cep">
-          </div>
-          <div class="form-group">
-            <label>Número</label>
-            <input type="text" [(ngModel)]="pessoa.Enderecos[0].Numero" name="numero">
-          </div>
+          <label>CPF (apenas números) *</label>
+          <!-- type="text" para aceitar a máscara, (input) chama a função formatarCPF -->
+          <input type="text" [(ngModel)]="pessoa.CPF" name="cpf" required (input)="formatarCPF($event)">
         </div>
         <div class="form-group">
-          <label>Complemento</label>
-          <input type="text" [(ngModel)]="pessoa.Enderecos[0].Complemento" name="complemento">
+          <label>Data de Nascimento</label>
+          <input type="date" [(ngModel)]="pessoa.DataNascimento" name="dataNascimento">
         </div>
-  
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
+      </div>
+
+      <!-- Linha: Email e Telefone -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>E-mail *</label>
+          <input type="email" [(ngModel)]="pessoa.Email" name="email" required>
         </div>
-      </form>
-    </div>
+        <div class="form-group">
+          <label>Telefone (apenas números)</label>
+          <input type="number" [(ngModel)]="pessoa.Telefone" name="telefone">
+        </div>
+      </div>
+
+      <!-- Sexo -->
+      <div class="form-group">
+        <label>Sexo</label>
+        <select [(ngModel)]="pessoa.Sexo" name="sexo">
+          <option value="M">Masculino</option>
+          <option value="F">Feminino</option>
+        </select>
+      </div>
+
+      <!-- Endereço -->
+      <h3>Endereço</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>CEP</label>
+          <input type="text" [(ngModel)]="pessoa.Enderecos[0].CEP" name="cep">
+        </div>
+        <div class="form-group">
+          <label>Número</label>
+          <input type="text" [(ngModel)]="pessoa.Enderecos[0].Numero" name="numero">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Complemento</label>
+        <input type="text" [(ngModel)]="pessoa.Enderecos[0].Complemento" name="complemento">
+      </div>
+
+      <!-- Botão de Cadastrar -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Cadastrar Cliente</button>
+      </div>
+    </form>
   </div>
+</div>

@@ -1,12 +1,17 @@
+<!-- Container principal da tela -->
 <div class="admin-container">
+  
+  <!-- Cabeçalho verde escuro -->
   <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Gerenciar Pedidos</h2>
+    <!-- Botão para voltar ao Dashboard -->
     <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
   </div>
 
-  <!-- FILTRO -->
+  <!-- FILTRO DE STATUS -->
   <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
     <label style="font-weight: bold; color: #2b4a3f;">Filtrar por Status:</label>
+    <!-- Select ligado à variável 'filtroStatus' -->
     <select [(ngModel)]="filtroStatus" class="select-filtro">
       <option value="Todos">Todos</option>
       <option value="Aberto">Aberto</option>
@@ -16,10 +21,12 @@
     </select>
   </div>
 
+  <!-- Mensagem que aparece enquanto os dados são buscados -->
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">
     Carregando pedidos...
   </div>
 
+  <!-- Tabela que lista os pedidos -->
   <table class="tabela-admin" *ngIf="!carregando">
     <thead>
       <tr>
@@ -31,12 +38,13 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Usa a função de filtro aqui -->
+      <!-- Usa a função getPedidosFiltrados() para exibir apenas os pedidos do filtro -->
       <tr *ngFor="let pedido of getPedidosFiltrados()">
         <td>#{{ getId(pedido) }}</td>
         <td>{{ getCliente(pedido) }}</td>
         <td>{{ getData(pedido) }}</td>
         <td>
+          <!-- Aplica uma classe CSS diferente para cada status (cor diferente) -->
           <span [ngClass]="{
             'status-aberto': getStatus(pedido) === 'Aberto',
             'status-processamento': getStatus(pedido) === 'Em processamento',
@@ -47,6 +55,9 @@
           </span>
         </td>
         <td>
+          <!-- Select para alterar o status do pedido -->
+          <!-- [ngModel] liga o select ao status atual do pedido -->
+          <!-- (ngModelChange) chama a função alterarStatus quando o usuário muda o valor -->
           <select class="select-status" 
                   [ngModel]="getStatus(pedido)" 
                   (ngModelChange)="alterarStatus(pedido, $event)">

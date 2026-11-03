@@ -1,9 +1,12 @@
+// Importações do Angular
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Necessário para o formulário
-import { RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router'; // Necessário para o botão de voltar
+// Importa o serviço que busca e cadastra os itens no banco
 import { ItemService } from '../../core/services/item.service';
 
+// Configuração do Componente
 @Component({
   selector: 'app-servicos-admin',
   standalone: true,
@@ -12,33 +15,41 @@ import { ItemService } from '../../core/services/item.service';
   styleUrls: ['./servicos.component.css']
 })
 export class ServicosComponent implements OnInit {
+  // Lista que vai receber os serviços do banco
   servicos: any[] = [];
+  // Controla a mensagem de "Carregando..."
   carregando: boolean = true;
 
-  // Objeto do formulário de cadastro
-  novoCategoriaId: number | null = null;
-  novoNome: string = '';
-  novoDescricao: string = '';
-  novoPreco: number = 0;
+  // ==========================================
+  // Variáveis do Formulário de Cadastro
+  // ==========================================
+  novoCategoriaId: number | null = null; // ID da categoria (2 = Cabelo, etc)
+  novoNome: string = '';                 // Nome do serviço
+  novoDescricao: string = '';            // Descrição
+  novoPreco: number = 0;                 // Preço do serviço
 
+  // Injeção de dependências (Serviço e ChangeDetectorRef)
   constructor(
     private itemService: ItemService,
     private cdr: ChangeDetectorRef
   ) {}
 
+  // Executa assim que a tela é aberta
   ngOnInit(): void {
     this.carregarServicos();
   }
 
+  // Busca todos os itens no banco e FILTRA apenas os Serviços ('S')
   carregarServicos(): void {
     this.itemService.listar().subscribe({
       next: (dados: any) => {
+        // Filtra apenas SERVIÇOS ('S'), ignorando os Produtos ('P')
         this.servicos = dados.filter((i: any) => {
           const tipo = (i.TipoItem || i.tipoItem || '').toUpperCase();
           return tipo === 'S';
         });
-        this.carregando = false;
-        this.cdr.detectChanges();
+        this.carregando = false; // Para de mostrar "Carregando"
+        this.cdr.detectChanges(); // Força o Angular a atualizar a tela
       },
       error: (err: any) => {
         console.error(err);
@@ -48,23 +59,27 @@ export class ServicosComponent implements OnInit {
     });
   }
 
-  // Função para cadastrar um novo serviço
+  // Função chamada ao clicar no botão "Cadastrar Serviço"
   cadastrarServico(): void {
+    // Validação: verifica se os campos obrigatórios foram preenchidos
     if (!this.novoNome || this.novoPreco <= 0 || !this.novoCategoriaId) {
       alert('Preencha os campos obrigatórios (Categoria, Nome e Preço).');
       return;
     }
 
+    // Monta o objeto com os nomes que o C# espera (Item)
     const servicoParaEnviar = {
       Idcategoria: this.novoCategoriaId,
-      Item1: this.novoNome,
+      Item1: this.novoNome,          // O C# espera 'Item1' (com o número 1)
       DescricaoItem: this.novoDescricao,
       Preco: this.novoPreco,
-      TipoItem: 'S', // 'S' para Serviço
-      AtivoProdutoServico: 'S'
+      TipoItem: 'S',                 // 'S' para Serviço
+      AtivoProdutoServico: 'S'       // 'S' para Ativo
     };
 
-    console.log('Enviando para o C#:', servicoParaEnviar); // <-- ADICIONE ESTA LINHA
+    console.log('Enviando para o C#:', servicoParaEnviar); // Ajuda a debugar
+
+    // Envia para o backend (C#)
     this.itemService.cadastrar(servicoParaEnviar).subscribe({
       next: () => {
         alert('Serviço cadastrado com sucesso!');
@@ -82,8 +97,10 @@ export class ServicosComponent implements OnInit {
     });
   }
 
+  // Função para ATIVAR ou DESATIVAR um serviço
   alternarStatus(servico: any): void {
     const statusAtual = servico.AtivoProdutoServico || servico.ativoProdutoServico;
+    // Se estiver ativo ('S'), vira inativo ('N'). Se estiver inativo, vira ativo.
     const novoStatus = (statusAtual === 'S' || statusAtual === 'ativo') ? 'N' : 'S';
     
     const servicoAtualizado = {
@@ -94,10 +111,11 @@ export class ServicosComponent implements OnInit {
 
     const id = servico.Iditem || servico.iditem;
 
+    // Envia a atualização para o backend (C#)
     this.itemService.atualizar(id, servicoAtualizado).subscribe({
       next: () => {
         alert('Status do serviço alterado!');
-        this.carregarServicos();
+        this.carregarServicos(); // Recarrega a lista
       },
       error: (err: any) => {
         console.error(err);
@@ -106,7 +124,9 @@ export class ServicosComponent implements OnInit {
     });
   }
 
-  // Funções auxiliares
+  // ==========================================
+  // Funções Auxiliares (Leitura dos dados)
+  // ==========================================
   getNome(item: any): string { return item.Item1 || item.item1 || 'Sem nome'; }
   getPreco(item: any): number { return item.Preco !== undefined ? item.Preco : (item.preco || 0); }
   getAtivo(item: any): string { return item.AtivoProdutoServico || item.ativoProdutoServico || 'N'; }
