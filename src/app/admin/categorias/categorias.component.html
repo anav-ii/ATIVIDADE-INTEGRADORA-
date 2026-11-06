@@ -1,45 +1,65 @@
-<!-- Container principal da tela -->
 <div class="admin-container">
-  
-  <!-- Cabeçalho da tela (Verde escuro) -->
   <div class="admin-header">
     <h2>Gerenciar Categorias</h2>
-    <!-- Botão para voltar ao Dashboard -->
     <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
   </div>
 
-  <!-- Formulário de Cadastro de Nova Categoria -->
+  <!-- Formulário de Cadastro -->
   <div class="form-card">
     <h3>Nova Categoria</h3>
     <div class="form-row">
       <div class="form-group">
         <label>Nome da Categoria:</label>
-        <!-- Input ligado à propriedade 'Categoriacol' do objeto 'novaCategoria' -->
         <input type="text" [(ngModel)]="novaCategoria.Categoriacol" placeholder="Ex: Maquiagem">
       </div>
-      <!-- Botão que chama a função 'cadastrarCategoria()' no TS -->
       <button class="btn btn-primary" (click)="cadastrarCategoria()">Cadastrar</button>
     </div>
   </div>
 
-  <!-- Mensagem que aparece enquanto os dados são buscados no banco -->
+  <!-- Lista de Categorias -->
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">
     Carregando categorias...
   </div>
 
-  <!-- Tabela que lista as categorias (só aparece quando o carregamento termina) -->
   <table class="tabela-admin" *ngIf="!carregando">
     <thead>
       <tr>
         <th>ID</th>
         <th>Nome da Categoria</th>
+        <th>Ações</th>
       </tr>
     </thead>
     <tbody>
-      <!-- Laço de repetição: para cada 'cat' na lista 'categorias', cria uma linha -->
       <tr *ngFor="let cat of categorias">
         <td>{{ getId(cat) }}</td>
-        <td>{{ getNome(cat) }}</td>
+        
+        <!-- Se NÃO estiver editando, mostra o nome -->
+        <td *ngIf="categoriaEditando !== cat">{{ getNome(cat) }}</td>
+        
+        <!-- Se ESTIVER editando, mostra o input -->
+        <td *ngIf="categoriaEditando === cat">
+          <input type="text" [(ngModel)]="nomeEditado" style="padding: 5px; width: 100%;">
+        </td>
+
+        <!-- Ações -->
+        <td>
+          <!-- Modo Visualização: botões de Editar e Ativar/Desativar -->
+          <div *ngIf="categoriaEditando !== cat" style="display: flex; gap: 5px;">
+            <button (click)="editarCategoria(cat)" class="btn btn-sm btn-outline">Editar</button>
+            
+            <!-- Se estiver DESATIVADA, mostra o botão "Ativar" (verde) -->
+            <button *ngIf="isDesativada(cat)" (click)="ativarCategoria(cat)" class="btn btn-sm btn-success">Ativar</button>
+            
+            <!-- Se estiver ATIVA, mostra o botão "Desativar" (laranja) -->
+            <button *ngIf="!isDesativada(cat)" (click)="desativarCategoria(cat)" class="btn btn-sm btn-warning">Desativar</button>
+          </div>
+
+          <!-- Modo Edição: botões de Salvar e Cancelar -->
+          <div *ngIf="categoriaEditando === cat" style="display: flex; gap: 5px;">
+            <button (click)="salvarEdicao(cat)" class="btn btn-sm btn-success">Salvar</button>
+            <button (click)="cancelarEdicao()" class="btn btn-sm btn-outline">Cancelar</button>
+          </div>
+        </td>
       </tr>
     </tbody>
   </table>

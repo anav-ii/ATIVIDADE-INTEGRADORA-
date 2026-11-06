@@ -1,17 +1,12 @@
-<!-- Container principal da tela -->
 <div class="admin-container">
-  
-  <!-- Cabeçalho verde escuro -->
   <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Gerenciar Pedidos</h2>
-    <!-- Botão para voltar ao Dashboard -->
     <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
   </div>
 
-  <!-- FILTRO DE STATUS -->
+  <!-- FILTRO -->
   <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
     <label style="font-weight: bold; color: #2b4a3f;">Filtrar por Status:</label>
-    <!-- Select ligado à variável 'filtroStatus' -->
     <select [(ngModel)]="filtroStatus" class="select-filtro">
       <option value="Todos">Todos</option>
       <option value="Aberto">Aberto</option>
@@ -21,12 +16,10 @@
     </select>
   </div>
 
-  <!-- Mensagem que aparece enquanto os dados são buscados -->
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">
     Carregando pedidos...
   </div>
 
-  <!-- Tabela que lista os pedidos -->
   <table class="tabela-admin" *ngIf="!carregando">
     <thead>
       <tr>
@@ -38,13 +31,12 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Usa a função getPedidosFiltrados() para exibir apenas os pedidos do filtro -->
+      <!-- Laço de repetição para os pedidos -->
       <tr *ngFor="let pedido of getPedidosFiltrados()">
         <td>#{{ getId(pedido) }}</td>
         <td>{{ getCliente(pedido) }}</td>
         <td>{{ getData(pedido) }}</td>
         <td>
-          <!-- Aplica uma classe CSS diferente para cada status (cor diferente) -->
           <span [ngClass]="{
             'status-aberto': getStatus(pedido) === 'Aberto',
             'status-processamento': getStatus(pedido) === 'Em processamento',
@@ -55,9 +47,6 @@
           </span>
         </td>
         <td>
-          <!-- Select para alterar o status do pedido -->
-          <!-- [ngModel] liga o select ao status atual do pedido -->
-          <!-- (ngModelChange) chama a função alterarStatus quando o usuário muda o valor -->
           <select class="select-status" 
                   [ngModel]="getStatus(pedido)" 
                   (ngModelChange)="alterarStatus(pedido, $event)">
@@ -66,6 +55,48 @@
             <option value="Concluido">Concluído</option>
             <option value="Cancelado">Cancelado</option>
           </select>
+          
+          <!-- BOTÃO VER ITENS -->
+          <button (click)="toggleDetalhes(pedido)" class="btn-detalhes">
+            {{ pedidoExpandido === pedido ? 'Ocultar' : 'Ver Itens' }}
+          </button>
+
+         
+        </td>
+      </tr>
+
+      <!-- LINHA DE DETALHES (Só aparece quando o pedido está expandido) -->
+      <tr *ngIf="pedidoExpandido" class="linha-detalhes">
+        <td colspan="5">
+          <div class="detalhes-container">
+            <h4>Itens do Pedido #{{ getId(pedidoExpandido) }}</h4>
+            <table class="tabela-itens">
+              <thead>
+                <tr>
+                  <th>Produto/Serviço</th>
+                  <th>Funcionário</th>
+                  <th>Qtd.</th>
+                  <th>Valor Unit.</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of (pedidoExpandido.Itens || pedidoExpandido.itens)">
+                  <td>{{ item.Item || item.item }}</td>
+                  <td>{{ item.NomeFuncionario || item.nomeFuncionario }}</td>
+                  <td>{{ item.Quantidade || item.quantidade }}</td>
+                  <td>R$ {{ (item.ValorUnitario || item.valorUnitario) | number:'1.2-2' }}</td>
+                  <td>R$ {{ ((item.Quantidade || item.quantidade) * (item.ValorUnitario || item.valorUnitario)) | number:'1.2-2' }}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- RODAPÉ COM O TOTAL DO PEDIDO -->
+            <div class="total-pedido">
+              <span>Total do Pedido:</span>
+              <strong>R$ {{ calcularTotal(pedidoExpandido) | number:'1.2-2' }}</strong>
+            </div>
+          </div>
         </td>
       </tr>
     </tbody>

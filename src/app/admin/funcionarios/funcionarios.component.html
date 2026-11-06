@@ -1,0 +1,115 @@
+<div class="admin-container">
+    <div class="admin-header">
+      <h2>Gerenciar Funcionários</h2>
+      <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
+    </div>
+  
+    <!-- Formulário de Cadastro -->
+    <div class="form-card">
+      <h3>Adicionar Novo Funcionário</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome Completo *</label>
+          <input type="text" [(ngModel)]="novoFuncionario.Nome" placeholder="Ex: João da Silva">
+        </div>
+        <div class="form-group">
+          <label>Cargo *</label>
+          <input type="text" [(ngModel)]="novoFuncionario.Cargo" placeholder="Ex: Cabeleireiro">
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group">
+          <label>E-mail *</label>
+          <input type="email" [(ngModel)]="novoFuncionario.Email" placeholder="Ex: joao@email.com">
+        </div>
+        <div class="form-group">
+          <label>CPF (apenas números)</label>
+          <input type="number" [(ngModel)]="novoFuncionario.Cpf">
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group">
+          <label>Telefone</label>
+          <input type="number" [(ngModel)]="novoFuncionario.Telefone">
+        </div>
+        <div class="form-group">
+          <label>Data de Admissão</label>
+          <input type="date" [(ngModel)]="novoFuncionario.DataAdmissao">
+        </div>
+      </div>
+  
+      <div class="form-row">
+        <div class="form-group">
+          <label>CEP</label>
+          <input type="text" [(ngModel)]="novoFuncionario.Cep">
+        </div>
+        <div class="form-group">
+          <label>Número</label>
+          <input type="text" [(ngModel)]="novoFuncionario.Numero">
+        </div>
+        <div class="form-group">
+          <label>Complemento</label>
+          <input type="text" [(ngModel)]="novoFuncionario.Complemento">
+        </div>
+      </div>
+  
+      <button class="btn btn-primary" (click)="cadastrarFuncionario()">Cadastrar Funcionário</button>
+    </div>
+  
+    <!-- Lista de Funcionários -->
+    <div *ngIf="carregando" style="text-align: center; padding: 20px;">Carregando...</div>
+  
+    <table class="tabela-admin" *ngIf="!carregando">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Cargo</th>
+          <th>E-mail</th>
+          <th>CPF</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Linha de Edição (só aparece quando um funcionário está sendo editado) -->
+        <tr *ngIf="funcionarioEditando">
+          <td>{{ getId(funcionarioEditando) }}</td>
+          <td><input type="text" [(ngModel)]="dadosEdicao.Nome" style="width: 100%; padding: 5px;"></td>
+          <td><input type="text" [(ngModel)]="dadosEdicao.Cargo" style="width: 100%; padding: 5px;"></td>
+          <td><input type="email" [(ngModel)]="dadosEdicao.Email" style="width: 100%; padding: 5px;"></td>
+          <td>{{ getCpf(funcionarioEditando) }}</td>
+          <td colspan="2">
+            <button (click)="salvarEdicao(funcionarioEditando)" class="btn btn-sm btn-success">Salvar</button>
+            <button (click)="cancelarEdicao()" class="btn btn-sm btn-outline">Cancelar</button>
+          </td>
+        </tr>
+  
+        <!-- Linhas normais (quando não está editando) -->
+        <tr *ngFor="let f of funcionarios" [hidden]="funcionarioEditando === f">
+          <td>{{ getId(f) }}</td>
+          <td>{{ getNome(f) }}</td>
+          <td>{{ getCargo(f) }}</td>
+          <td>{{ getEmail(f) }}</td>
+          <td>{{ getCpf(f) }}</td>
+          <td>
+            <span [class.ativo]="isAtivo(f)" [class.inativo]="!isAtivo(f)">
+              {{ isAtivo(f) ? 'Ativo' : 'Inativo' }}
+            </span>
+          </td>
+          <td>
+            <button (click)="editarFuncionario(f)" class="btn btn-sm btn-outline">Editar</button>
+            
+            <!-- Se estiver ATIVO, mostra "Desativar" (laranja) -->
+            <button *ngIf="isAtivo(f)" (click)="desativarFuncionario(f)" class="btn btn-sm btn-warning">Desativar</button>
+            
+            <!-- Se estiver INATIVO, mostra "Ativar" (verde) -->
+            <button *ngIf="!isAtivo(f)" (click)="ativarFuncionario(f)" class="btn btn-sm btn-success">Ativar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

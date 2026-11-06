@@ -1,16 +1,37 @@
-h1 { margin-bottom: 20px; color: #2b4a3f; }
+.page-container { max-width: 1000px; margin: 20px auto; padding: 20px; }
+h1 { color: #2b4a3f; margin-bottom: 20px; }
 
+/* Carrinho Vazio */
 .carrinho-vazio { text-align: center; padding: 50px; background: white; border-radius: 8px; }
 .carrinho-vazio p { margin-bottom: 20px; font-size: 1.2rem; color: #666; }
 
+/* Layout do Carrinho */
 .carrinho-layout { display: flex; gap: 20px; }
 .carrinho-itens { flex: 1; }
 .item-card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.item-info h4 { color: #2b4a3f; margin-bottom: 5px; }
-.item-info p { color: #666; font-size: 0.9rem; }
+.item-info h4 { color: #2b4a3f; margin-bottom: 10px; }
 .item-acoes { text-align: right; }
 .item-acoes .preco { font-weight: bold; color: #c62828; font-size: 1.1rem; margin-bottom: 5px; }
 
+/* Controle de Quantidade */
+.quantidade-container { display: flex; align-items: center; gap: 5px; margin-top: 5px; }
+.btn-qtd { width: 30px; height: 30px; border: 1px solid #ccc; background: #f0f0f0; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+.btn-qtd:hover { background: #e0e0e0; }
+.input-qtd { width: 50px; height: 30px; text-align: center; border: 1px solid #ccc; border-radius: 4px; font-size: 0.95rem; }
+
+/* Remove as setinhas do input number (com correção de compatibilidade) */
+.input-qtd::-webkit-outer-spin-button,
+.input-qtd::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input-qtd[type=number] {
+  -moz-appearance: textfield;
+  appearance: textfield; /* <-- Adicionado para remover o aviso do VS Code */
+}
+
+/* Resumo */
 .carrinho-resumo { width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); height: fit-content; }
 .carrinho-resumo h3 { color: #2b4a3f; border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px; }
 .linha-resumo { display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 20px; }
@@ -21,3 +42,4 @@ h1 { margin-bottom: 20px; color: #2b4a3f; }
 .btn-primary { background-color: #2b4a3f; color: #fff; }
 .btn-danger { background-color: #c62828; color: #fff; }
 .btn-outline { background-color: transparent; border: 1px solid #2b4a3f; color: #2b4a3f; }
+.btn-outline:hover { background-color: #2b4a3f; color: #fff; }

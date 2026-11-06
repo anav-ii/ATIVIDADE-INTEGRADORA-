@@ -15,4 +15,12 @@ export class CategoriaService {
   cadastrar(categoria: any): Observable<any> {
     return this.http.post(this.apiUrl, categoria);
   }
+
+  atualizar(id: number, categoria: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${id}`, categoria);
+  }
+
+  excluir(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }

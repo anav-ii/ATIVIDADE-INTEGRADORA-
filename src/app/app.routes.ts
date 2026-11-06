@@ -22,5 +22,7 @@ export const routes: Routes = [
 
   { path: 'admin/entradas-produtos', loadComponent: () => import('./admin/entradas-produtos/entradas-produtos.component').then(m => m.EntradasProdutosComponent) },
 
-  { path: 'admin/servicos', loadComponent: () => import('./admin/servicos/servicos.component').then(m => m.ServicosComponent) }
+  { path: 'admin/servicos', loadComponent: () => import('./admin/servicos/servicos.component').then(m => m.ServicosComponent) },
+
+  { path: 'admin/funcionarios', loadComponent: () => import('./admin/funcionarios/funcionarios.component').then(m => m.FuncionariosComponent) }
 ];
