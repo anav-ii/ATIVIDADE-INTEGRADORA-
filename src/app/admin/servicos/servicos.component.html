@@ -1,18 +1,12 @@
-<!-- Container principal da tela -->
 <div class="admin-container">
-  
-  <!-- Cabeçalho verde escuro -->
   <div class="admin-header" style="display: flex; justify-content: space-between; align-items: center;">
     <h2>Gerenciar Serviços</h2>
-    <!-- Botão para voltar ao Dashboard -->
-    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar</a>
+    <a routerLink="/admin/dashboard" class="btn-voltar">← Voltar ao Dashboard</a>
   </div>
 
-  <!-- Formulário de Cadastro de Serviço -->
+  <!-- Formulário de Cadastro -->
   <div class="form-card">
     <h3>Adicionar Novo Serviço</h3>
-    
-    <!-- Linha 1: Categoria, Nome e Preço -->
     <div class="form-row">
       <div class="form-group">
         <label>Categoria (ID):</label>
@@ -27,23 +21,18 @@
         <input type="number" [(ngModel)]="novoPreco" step="0.01">
       </div>
     </div>
-
-    <!-- Descrição -->
     <div class="form-group">
       <label>Descrição:</label>
       <input type="text" [(ngModel)]="novoDescricao" placeholder="Descrição do serviço">
     </div>
-
-    <!-- Botão que chama a função 'cadastrarServico()' -->
     <button class="btn btn-primary" (click)="cadastrarServico()">Cadastrar Serviço</button>
   </div>
 
-  <!-- Mensagem de carregamento -->
+  <!-- Lista de Serviços -->
   <div *ngIf="carregando" style="text-align: center; padding: 20px;">
     Carregando serviços...
   </div>
 
-  <!-- Tabela de Serviços -->
   <table class="tabela-admin" *ngIf="!carregando">
     <thead>
       <tr>
@@ -55,22 +44,33 @@
       </tr>
     </thead>
     <tbody>
-      <!-- Laço de repetição: para cada 'servico' na lista 'servicos', cria uma linha -->
-      <tr *ngFor="let servico of servicos">
+      <!-- Linha de Edição (só aparece quando um serviço está sendo editado) -->
+      <tr *ngIf="servicoEditando">
+        <td>{{ getId(servicoEditando) }}</td>
+        <td><input type="text" [(ngModel)]="dadosEdicao.Item1" style="width: 100%; padding: 5px;"></td>
+        <td><input type="number" [(ngModel)]="dadosEdicao.Preco" step="0.01" style="width: 80px; padding: 5px;"></td>
+        <td>{{ isAtivo(servicoEditando) ? 'Ativo' : 'Inativo' }}</td>
+        <td>
+          <button (click)="salvarEdicao(servicoEditando)" class="btn btn-sm btn-success">Salvar</button>
+          <button (click)="cancelarEdicao()" class="btn btn-sm btn-outline">Cancelar</button>
+        </td>
+      </tr>
+
+      <!-- Linhas normais -->
+      <tr *ngFor="let servico of servicos" [hidden]="servicoEditando === servico">
         <td>{{ getId(servico) }}</td>
         <td>{{ getNome(servico) }}</td>
         <td>R$ {{ getPreco(servico) | number:'1.2-2' }}</td>
         <td>
-          <!-- Se estiver ativo, aplica a classe 'ativo' (verde). Se inativo, 'inativo' (vermelho) -->
-          <span [class.ativo]="getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo'" 
-                [class.inativo]="getAtivo(servico) === 'N'">
-            {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Ativo' : 'Inativo' }}
+          <span [class.ativo]="isAtivo(servico)" [class.inativo]="!isAtivo(servico)">
+            {{ isAtivo(servico) ? 'Ativo' : 'Inativo' }}
           </span>
         </td>
         <td>
-          <!-- Botão que chama a função 'alternarStatus()' para mudar o status -->
-          <button (click)="alternarStatus(servico)" class="btn btn-sm btn-outline">
-            {{ (getAtivo(servico) === 'S' || getAtivo(servico) === 'ativo') ? 'Desativar' : 'Ativar' }}
+          <button (click)="editarServico(servico)" class="btn btn-sm btn-outline">Editar</button>
+          <button (click)="alternarStatus(servico)" class="btn btn-sm" 
+                  [ngClass]="isAtivo(servico) ? 'btn-warning' : 'btn-success'">
+            {{ isAtivo(servico) ? 'Desativar' : 'Ativar' }}
           </button>
         </td>
       </tr>
